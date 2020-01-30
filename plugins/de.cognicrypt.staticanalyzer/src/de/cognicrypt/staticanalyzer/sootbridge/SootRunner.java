@@ -85,15 +85,7 @@ public class SootRunner {
 				};
 				scanner.getAnalysisListener().addReportListener(resultsReporter);
 				List<CrySLRule> rules = getRules(resultsReporter.getReporterProject());
-				if (store.getBoolean(Constants.PROVIDER_DETECTION_ANALYSIS)) {
-					ProviderDetection providerDetection = new ProviderDetection();
-					String rootRulesDirectory = Constants.ECLIPSE_RULES_DIR;
-					String detectedProvider = providerDetection.doAnalysis(icfg, rootRulesDirectory);
-					if(detectedProvider != null) {
-						rules.clear();
-						rules.addAll(providerDetection.chooseRules(rootRulesDirectory+File.separator+detectedProvider));
-					}
-				}
+				scanner.scan(getRules(resultsReporter.getReporterProject()));
 				scanner.scan(rules);
 			}
 		};
